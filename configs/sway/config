@@ -1,0 +1,297 @@
+# ====================================
+# Sway Configuration - UnixPorn Edition
+# ====================================
+
+# Mod key (Super/Win)
+set $mod Mod4
+
+# Font
+font pango:FiraCode Nerd Font 10
+
+# ====================================
+# CATPPUCCIN MOCHA COLOR SCHEME
+# ====================================
+set $rosewater #f5e0dc
+set $flamingo  #f2cdcd
+set $pink      #f5c2e7
+set $mauve     #cba6f7
+set $red       #f38ba8
+set $maroon    #eba0ac
+set $peach     #fab387
+set $yellow    #f9e2af
+set $green     #a6e3a1
+set $teal      #94e2d5
+set $sky       #89dceb
+set $sapphire  #74c7ec
+set $blue      #89b4fa
+set $lavender  #b4befe
+set $text      #cdd6f4
+set $subtext1  #bac2de
+set $subtext0  #a6adc8
+set $overlay2  #9399b2
+set $overlay1  #7f849c
+set $overlay0  #6c7086
+set $surface2  #585b70
+set $surface1  #45475a
+set $surface0  #313244
+set $base      #1e1e2e
+set $mantle    #181825
+set $crust     #11111b
+
+# ====================================
+# WINDOW COLORS
+# ====================================
+# class                 border      background  text        indicator   child_border
+client.focused          $lavender   $base       $text       $rosewater  $lavender
+client.focused_inactive $overlay0   $base       $text       $rosewater  $overlay0
+client.unfocused        $overlay0   $base       $text       $rosewater  $overlay0
+client.urgent           $peach      $base       $peach      $overlay0   $peach
+client.placeholder      $overlay0   $base       $text       $overlay0   $overlay0
+client.background       $base
+
+# ====================================
+# GAPS & BORDERS
+# ====================================
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 15
+gaps outer 5
+smart_gaps on
+smart_borders on
+
+# Hide edge borders
+hide_edge_borders smart
+
+# ====================================
+# OUTPUT CONFIGURATION (Monitors)
+# ====================================
+# List outputs: swaymsg -t get_outputs
+
+# Example: Laptop screen
+output eDP-1 {
+    resolution 1920x1080
+    position 0,0
+    scale 1
+}
+
+# Example: External monitor
+# output HDMI-A-1 {
+#     resolution 2560x1440
+#     position 1920,0
+#     scale 1
+# }
+
+# Wallpaper (all outputs)
+output * bg ~/Pictures/wallpapers/main.jpg fill
+
+# ====================================
+# INPUT CONFIGURATION
+# ====================================
+# List inputs: swaymsg -t get_inputs
+
+input type:keyboard {
+    xkb_layout "pl"
+    xkb_options "caps:escape"
+    repeat_delay 300
+    repeat_rate 50
+}
+
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+# ====================================
+# IDLE CONFIGURATION
+# ====================================
+exec swayidle -w \
+    timeout 300 'swaylock -f -c 000000' \
+    timeout 600 'swaymsg "output * power off"' \
+    resume 'swaymsg "output * power on"' \
+    before-sleep 'swaylock -f -c 000000'
+
+# ====================================
+# WORKSPACE CONFIGURATION
+# ====================================
+set $ws1 "1:  Code"
+set $ws2 "2:  Terminal"
+set $ws3 "3:  Browser"
+set $ws4 "4:  Files"
+set $ws5 "5:  Music"
+set $ws6 "6:  Chat"
+set $ws7 "7:  Docker"
+set $ws8 "8:  Monitor"
+set $ws9 "9:  Misc"
+set $ws10 "10:  Float"
+
+# Workspace assignments (using app_id for Wayland)
+assign [app_id="code-url-handler"] $ws1
+assign [app_id="foot"] $ws2
+assign [app_id="firefox"] $ws3
+assign [app_id="thunar"] $ws4
+assign [app_id="spotify"] $ws5
+assign [app_id="slack"] $ws6
+assign [app_id="telegramdesktop"] $ws6
+
+# Floating windows
+for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="blueman-manager"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [app_id="imv"] floating enable
+
+# ====================================
+# KEYBINDINGS
+# ====================================
+
+# Terminal
+bindsym $mod+Return exec foot
+
+# Application launcher
+bindsym $mod+d exec wofi --show drun
+bindsym $mod+Shift+d exec wofi --show run
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Change focus (Vim bindings)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Arrow keys
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Split orientation
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Container layout
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle floating
+bindsym $mod+Shift+space floating toggle
+
+# Toggle focus floating/tiling
+bindsym $mod+space focus mode_toggle
+
+# Focus parent/child
+bindsym $mod+a focus parent
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# Reload / Exit
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+
+# Resize mode
+mode "resize" {
+    bindsym h resize shrink width 10 px
+    bindsym j resize grow height 10 px
+    bindsym k resize shrink height 10 px
+    bindsym l resize grow width 10 px
+
+    bindsym Left resize shrink width 10 px
+    bindsym Down resize grow height 10 px
+    bindsym Up resize shrink height 10 px
+    bindsym Right resize grow width 10 px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# ====================================
+# SCREENSHOTS (grim + slurp)
+# ====================================
+# Full screen
+bindsym Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+
+# Area selection
+bindsym $mod+Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+
+# Copy to clipboard
+bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
+
+# ====================================
+# MEDIA KEYS
+# ====================================
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+bindsym XF86MonBrightnessUp exec light -A 5
+bindsym XF86MonBrightnessDown exec light -U 5
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# ====================================
+# STARTUP APPLICATIONS
+# ====================================
+exec waybar
+exec mako
+exec nm-applet --indicator
+exec blueman-applet
+exec_always autotiling
+
+# Kanshi (monitor hotplug)
+exec kanshi
+
+# ====================================
+# WAYBAR (Status Bar)
+# ====================================
+bar {
+    swaybar_command waybar
+}
