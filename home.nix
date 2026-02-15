@@ -124,15 +124,32 @@
 
   programs.git = {
     enable = true;
-    userName = "cpprian";
-    userEmail = "cpprian456@proton.me";
-    
-    extraConfig = {
-      init.defaultBranch = "main";
-      pull.rebase = true;
+    settings = {
+      user = {
+        name = "cpprian";
+        email = "cpprian456@proton.me";
+      };
+      init = {
+        defaultBranch = "main";
+      };
+      pull = {
+        rebase = true;
+      };
     };
   };
-
+  
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+      prompt = "enabled";
+      aliases = {
+        co = "pr checkout";
+        pv = "pr view";
+      };
+    };
+  };
+  
   # Symlinks only for programs that do not have programs.*
   home.file = {
     ".config/sway/config".source = ./configs/sway/config;
