@@ -82,7 +82,7 @@ output eDP-1 {
 # }
 
 # Wallpaper (all outputs)
-output * bg ~/Pictures/wallpapers/main.jpg fill
+output * bg ~/Pictures/wallpapers/main.jpeg fill
 
 # ====================================
 # INPUT CONFIGURATION
